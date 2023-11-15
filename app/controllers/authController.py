@@ -10,34 +10,32 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/login', methods=['POST'])
 def login():
-    # Cambia get_json() por form
-    username = request.form.get('username')
-    password = request.form.get('password')
-
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
     auth_result = authenticate(username, password)
 
     if auth_result['status'] == 'success':
-        session.permanent = True 
-        user_id = auth_result['data']['id']
-        session['user_id'] = user_id
-        session['username'] = auth_result['data']['username']
-        
-        # Construir el menú
-        menu_structure = build_menu(user_id)
-        
-        # Construir la respuesta completa incluyendo el menú, el username y el id
-        response_data = {
-            'id': user_id,
-            'username': session['username'],                
-            'menu': menu_structure, 
-        }
-        
-        return build_api_response('success', 'Inicio de sesión exitoso', 200, response_data)
+            session.permanent = True 
+            user_id = auth_result['data']['id']
+            session['user_id'] = user_id
+            session['username'] = auth_result['data']['username']
+            
+            # Construir el menú
+            menu_structure = build_menu(user_id)
+            
+            # Construir la respuesta completa incluyendo el menú, el username y el id
+            response_data = {
+                'id': user_id,
+                'username': session['username'],                
+                'menu': menu_structure, 
+            }
+            
+            return build_api_response('success', 'Inicio de sesión exitoso', 200, response_data)
     else:
-        return build_api_response('error', auth_result['message'], 401)
+            return build_api_response('error', auth_result['message'], 401)  
     
 
-    
 @auth.route('/logout', methods=['POST'])
 def logout():
     session.clear()
