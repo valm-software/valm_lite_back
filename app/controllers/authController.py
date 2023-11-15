@@ -1,3 +1,4 @@
+#authController.py
 from flask import Blueprint, request, session, jsonify, make_response
 from ..services.authService import authenticate, get_user_permissions, crear_usuario, build_menu, cambiar_contrasena
 from ..helpers.permissions import require_permission  # Importa el decorador
@@ -34,12 +35,10 @@ def login():
     else:
             return build_api_response('error', auth_result['message'], 401)  
 
-
 @auth.route('/logout', methods=['POST'])
 def logout():
     session.clear()
     return make_response(jsonify({'message': 'Sesión cerrada exitosamente'}), 200)
-
 
 @auth.route('/check_session', methods=['GET'])
 def check_session():
@@ -59,7 +58,6 @@ def check_session():
         return build_api_response('authenticated', 'Sesión autenticada', 200, {'userData': user_data})
     else:
         return build_api_response('error', 'Sesión no autenticada', 401)
-    
 
 @auth.route('/usuarioCrear', methods=['POST'])
 def usuario_crear():
@@ -76,7 +74,6 @@ def usuario_crear():
         return jsonify(resultado), 201
     else:
         return jsonify(resultado), 400
-    
 
 @auth.route('/cambiarContrasena', methods=['POST'])
 def cambiar_contrasena_endpoint():

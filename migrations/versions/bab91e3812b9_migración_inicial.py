@@ -1,8 +1,8 @@
 """Migración inicial
 
-Revision ID: 89558460d305
+Revision ID: bab91e3812b9
 Revises: 
-Create Date: 2023-10-19 18:26:05.375570
+Create Date: 2023-11-04 17:54:10.619430
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '89558460d305'
+revision = 'bab91e3812b9'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,15 +21,13 @@ def upgrade():
     op.create_table('AuthPermisos',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('menu', sa.String(length=64), nullable=True),
-    sa.Column('subMenu', sa.String(length=64), nullable=True),
+    sa.Column('permissions', sa.String(length=64), nullable=True),
     sa.Column('controlador', sa.String(length=64), nullable=True),
     sa.Column('metodoHTTP', sa.String(length=10), nullable=True),
     sa.Column('ruta', sa.String(length=256), nullable=True),
     sa.Column('descripcion', sa.String(length=256), nullable=True),
     sa.Column('isActive', sa.Boolean(), nullable=True),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('menu'),
-    sa.UniqueConstraint('subMenu')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('AuthUsuarios',
     sa.Column('id', sa.Integer(), nullable=False),

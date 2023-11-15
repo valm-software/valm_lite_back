@@ -1,3 +1,4 @@
+#authService.py
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask import current_app
 from app.models.all_models import AuthUsuario, AuthPermiso, AuthUsuariosPermisos
